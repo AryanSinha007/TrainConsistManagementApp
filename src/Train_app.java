@@ -1,7 +1,6 @@
 import java.util.*;
 import java.util.stream.Collectors;
 
-
 public class Train_app {
     static class Bogie {
         String name;
@@ -11,8 +10,9 @@ public class Train_app {
             this.name = name;
             this.capacity = capacity;
         }
-
     }
+
+
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -23,45 +23,30 @@ public class Train_app {
         System.out.println();
 
         System.out.println("====================================");
-        System.out.println("    UC8 - Sort Bogies by Capacity (Comparator)");
+        System.out.println("    UC10 - Count Total Seats in Train");
         System.out.println("====================================");
 
         List<Bogie> bogies = new ArrayList<>();
 
-        System.out.println("Enter bogie name and capacity (Enter 'Exit' to stop):");
-        while (true) {
-            System.out.println("Bogie Name:");
-            String name = sc.nextLine();
-            if (name.equalsIgnoreCase("Exit")) {
-                break;
-            }
-            System.out.println("Bogie Capacity:");
-            int capacity = sc.nextInt();
-            sc.nextLine(); // Consume newline
-            bogies.add(new Bogie(name, capacity));
-        }
+        bogies.add(new Bogie("Sleeper", 72));
+        bogies.add(new Bogie("AC Chair", 56));
+        bogies.add(new Bogie("First Class", 24));
+        bogies.add(new Bogie("Sleeper", 70));
 
-        System.out.println();
-
-
-
-
-        System.out.println("All Bogies");
+        System.out.println("\nBogies in Train:");
         for (Bogie b : bogies) {
             System.out.println(b.name + " -> " + b.capacity);
         }
 
+        // ----- AGGREGATE USING STREAM (map + reduce) -----
+
+        int totalCapacity = bogies.stream()
+                .map(b -> b.capacity)          // extract capacity
+                .reduce(0, Integer::sum);      // sum all values
+
+        System.out.println("\nTotal Seating Capacity of Train: " + totalCapacity);
+
         System.out.println();
-
-        System.out.println("Filtered Bogeies (Capacity > 60):");
-        List<Bogie> filteredBogies = bogies.stream()
-                .filter(b -> b.capacity > 60)
-                .collect(Collectors.toList());
-
-        for (Bogie b : filteredBogies) {
-            System.out.println(b.name + " -> " + b.capacity);
-        }
-
-        System.out.println("UC8 filtering completed...");
+        System.out.println("UC10 aggregation completed...");
     }
 }
