@@ -23,30 +23,39 @@ public class Train_app {
         System.out.println();
 
         System.out.println("====================================");
-        System.out.println("    UC10 - Count Total Seats in Train");
+        System.out.println("    UC11 - Validate Train ID and Cargo Code");
         System.out.println("====================================");
 
-        List<Bogie> bogies = new ArrayList<>();
+        System.out.print("Enter Train ID (Format: TR-1234): ");
+        String trainId = sc.nextLine();
 
-        bogies.add(new Bogie("Sleeper", 72));
-        bogies.add(new Bogie("AC Chair", 56));
-        bogies.add(new Bogie("First Class", 24));
-        bogies.add(new Bogie("Sleeper", 70));
+        System.out.print("Enter Cargo Code (Format: FR-AB12): ");
+        String cargoCode = sc.nextLine();
 
-        System.out.println("\nBogies in Train:");
-        for (Bogie b : bogies) {
-            System.out.println(b.name + " -> " + b.capacity);
-        }
+        // ----- REGEX VALIDATION -----
 
-        // ----- AGGREGATE USING STREAM (map + reduce) -----
+        // Train ID: TR-1234
+        boolean isTrainValid = trainId.matches("TR-\\d{4}");
 
-        int totalCapacity = bogies.stream()
-                .map(b -> b.capacity)          // extract capacity
-                .reduce(0, Integer::sum);      // sum all values
-
-        System.out.println("\nTotal Seating Capacity of Train: " + totalCapacity);
+        // Cargo Code: FR-AB12
+        boolean isCargoValid = cargoCode.matches("FR-[A-Z]{2}\\d{2}");
 
         System.out.println();
-        System.out.println("UC10 aggregation completed...");
+
+        // Display results
+        if (isTrainValid) {
+            System.out.println("Train ID is VALID");
+        } else {
+            System.out.println("Train ID is INVALID");
+        }
+
+        if (isCargoValid) {
+            System.out.println("Cargo Code is VALID");
+        } else {
+            System.out.println("Cargo Code is INVALID");
+        }
+
+        System.out.println();
+        System.out.println("UC11 validation completed...");
     }
 }
