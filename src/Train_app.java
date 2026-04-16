@@ -43,6 +43,9 @@ public class Train_app {
 
         System.out.println();
 
+
+
+
         System.out.println("All Bogies");
         for (Bogie b : bogies) {
             System.out.println(b.name + " -> " + b.capacity);
