@@ -1,48 +1,64 @@
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
-class Bogie {
-    String name;
-    int capacity;
-
-    Bogie(String name, int capacity) {
-        this.name = name;
-        this.capacity = capacity;
-    }
-
-    @Override
-    public String toString() {
-        return "Bogie: " + name + " | Capacity: " + capacity;
-    }
-}
 
 public class Train_app {
+    static class Bogie {
+        String name;
+        int capacity;
+
+        Bogie(String name, int capacity) {
+            this.name = name;
+            this.capacity = capacity;
+        }
+
+    }
+
     public static void main(String[] args) {
-        List<Bogie> passengerBogies = new ArrayList<>();
+        Scanner sc = new Scanner(System.in);
+        System.out.println("====================================");
+        System.out.println("    Train Consist Management App");
+        System.out.println("====================================");
 
-        passengerBogies.add(new Bogie("Sleeper", 72));
-        passengerBogies.add(new Bogie("AC Chair Car", 56));
-        passengerBogies.add(new Bogie("First Class", 24));
-        passengerBogies.add(new Bogie("General", 90));
+        System.out.println();
 
-        System.out.println("--- Before Sorting (Unordered) ---");
-        for (Bogie b : passengerBogies) System.out.println(b);
+        System.out.println("====================================");
+        System.out.println("    UC8 - Sort Bogies by Capacity (Comparator)");
+        System.out.println("====================================");
 
-        // Sorting using Comparator (Ascending Order of Capacity)
-        passengerBogies.sort(Comparator.comparingInt(b -> b.capacity));
+        List<Bogie> bogies = new ArrayList<>();
 
-        System.out.println("\n--- After Sorting by Capacity (Low to High) ---");
-        for (Bogie b : passengerBogies) {
-            System.out.println(b);
+        System.out.println("Enter bogie name and capacity (Enter 'Exit' to stop):");
+        while (true) {
+            System.out.println("Bogie Name:");
+            String name = sc.nextLine();
+            if (name.equalsIgnoreCase("Exit")) {
+                break;
+            }
+            System.out.println("Bogie Capacity:");
+            int capacity = sc.nextInt();
+            sc.nextLine(); // Consume newline
+            bogies.add(new Bogie(name, capacity));
         }
 
-        // Sorting in Descending Order for high-capacity planning
-        passengerBogies.sort((b1, b2) -> Integer.compare(b2.capacity, b1.capacity));
+        System.out.println();
 
-        System.out.println("\n--- After Sorting by Capacity (High to Low) ---");
-        for (Bogie b : passengerBogies) {
-            System.out.println(b);
+        System.out.println("All Bogies");
+        for (Bogie b : bogies) {
+            System.out.println(b.name + " -> " + b.capacity);
         }
+
+        System.out.println();
+
+        System.out.println("Filtered Bogeies (Capacity > 60):");
+        List<Bogie> filteredBogies = bogies.stream()
+                .filter(b -> b.capacity > 60)
+                .collect(Collectors.toList());
+
+        for (Bogie b : filteredBogies) {
+            System.out.println(b.name + " -> " + b.capacity);
+        }
+
+        System.out.println("UC8 filtering completed...");
     }
 }
