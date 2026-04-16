@@ -12,6 +12,16 @@ public class Train_app {
         }
     }
 
+    static class GoodsBogie {
+        String type;
+        String cargo;
+
+        GoodsBogie(String type, String cargo) {
+            this.type = type;
+            this.cargo = cargo;
+        }
+    }
+
 
 
     public static void main(String[] args) {
@@ -23,39 +33,42 @@ public class Train_app {
         System.out.println();
 
         System.out.println("====================================");
-        System.out.println("    UC11 - Validate Train ID and Cargo Code");
+        System.out.println("    UC12 - Safet Compliance Check for Goods Bogies");
         System.out.println("====================================");
 
-        System.out.print("Enter Train ID (Format: TR-1234): ");
-        String trainId = sc.nextLine();
+        System.out.println("====================================");
+        System.out.println(" UC12 - Safety Compliance Check for Goods Bogies ");
+        System.out.println("====================================\n");
 
-        System.out.print("Enter Cargo Code (Format: FR-AB12): ");
-        String cargoCode = sc.nextLine();
+        // Create goods bogie list
+        List<GoodsBogie> goodsBogies = new ArrayList<>();
 
-        // ----- REGEX VALIDATION -----
+        goodsBogies.add(new GoodsBogie("Hazardous", "Chemicals"));
+        goodsBogies.add(new GoodsBogie("General", "Food"));
+        goodsBogies.add(new GoodsBogie("Hazardous", "Fuel"));
 
-        // Train ID: TR-1234
-        boolean isTrainValid = trainId.matches("TR-\\d{4}");
+        // Display bogies
+        System.out.println("Goods Bogies:");
+        for (GoodsBogie g : goodsBogies) {
+            System.out.println(g.type + " -> " + g.cargo);
+        }
 
-        // Cargo Code: FR-AB12
-        boolean isCargoValid = cargoCode.matches("FR-[A-Z]{2}\\d{2}");
+        // ----- SAFETY CHECK USING STREAM -----
+
+        // Rule: Hazardous bogies should NOT carry "Food"
+        boolean isSafe = goodsBogies.stream()
+                .allMatch(g -> !(g.type.equalsIgnoreCase("Hazardous")
+                        && g.cargo.equalsIgnoreCase("Food")));
 
         System.out.println();
 
-        // Display results
-        if (isTrainValid) {
-            System.out.println("Train ID is VALID");
+        if (isSafe) {
+            System.out.println("All goods bogies are SAFE");
         } else {
-            System.out.println("Train ID is INVALID");
-        }
-
-        if (isCargoValid) {
-            System.out.println("Cargo Code is VALID");
-        } else {
-            System.out.println("Cargo Code is INVALID");
+            System.out.println("Safety violation detected!");
         }
 
         System.out.println();
-        System.out.println("UC11 validation completed...");
+        System.out.println("UC12 safety compliance completed...");
     }
 }
